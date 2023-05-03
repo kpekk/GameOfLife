@@ -7,32 +7,21 @@ let gameField = [
 ]
 
 const next = (gameField) => {
-    console.log(gameField)
-    console.log('ok')
-    let newGameField = [...gameField]
+    // TODO find a better way to copy the gamefield
+    let newGameField = [
+        [0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0]
+    ]
 
     gameField.forEach((row, i) => {
         row.forEach((elem, j) => {
-            console.log(i, j, neighbourCount(i, j))
-            //todo neighhbourscount
-            // newGameField[i][j] = gameField[i][j]
-            newGameField[i][j] = 1//decideFate(gameField[i][j],neighbourCount(i,j))
+            newGameField[i][j] = decideFate(gameField[i][j],neighbourCount(i,j))
         })
     });
-    console.log('1',gameField)
-
-    console.log('2',newGameField)
-}
-
-
-
-const decideFate = (value, neighbourCount) => {
-    if (value === 1 && !(neighbourCount === 2 || neighbourCount === 3)) { // over- or underpopulation
-        return 0
-    }
-    else if ((value === 0 || value === undefined) && neighbourCount === 3){ //resurrection
-        return  1
-    }
+    console.log(newGameField)
 }
 
 const neighbourCoords = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
@@ -47,6 +36,14 @@ const neighbourCount = (i, j) => {
     }).length
 }
 
-console.log(gameField)
+const decideFate = (value, neighbourCount) => {
+    if (value === 1 && !(neighbourCount === 2 || neighbourCount === 3)) { // over- or underpopulation
+        return 0
+    }
+    else if (value === 0  && neighbourCount === 3){ //resurrection
+        return  1
+    }
+    return value //nothing happens
+}
+
 next(gameField)
-// console.log(neighbourCount(2,1))
