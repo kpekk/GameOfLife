@@ -13,8 +13,6 @@
     return newGameField;
   };
 
-  
-
   const habitantInBotRow = () => {
     for (let i = 0; i < gameField[0].length; i++) {
       if (gameField[gameField.length - 1][i]) {
@@ -56,17 +54,17 @@
   };
 
   const increaseGameFieldSize = (field) => {
-    let x_y_increase = [0,0]
+    let x_y_increase = [0, 0];
 
     if (habitantInTopRow()) {
-      x_y_increase[0] = 1
+      x_y_increase[0] = 1;
       field.unshift(new Array(field[0].length).fill(0));
     }
     if (habitantInBotRow()) {
       field.push(new Array(field[0].length).fill(0));
     }
     if (habitantInLeftRow()) {
-      x_y_increase[1] = 1
+      x_y_increase[1] = 1;
       for (let i = 0; i < field.length; i++) {
         field[i].unshift(0);
       }
@@ -76,7 +74,7 @@
         field[i].push(0);
       }
     }
-    return x_y_increase
+    return x_y_increase;
   };
 
   const cellClicked = (event) => {
@@ -103,15 +101,14 @@
       gameField[0].length
     );
 
+    // todo cleanup if there are no cells in the outer 2 rows
     let x_y_increase = increaseGameFieldSize(newGameField);
 
-    // todo only 1 if row added was top or left
-    let xcoordIncrease = x_y_increase[0]
-    let ycoordIncrease = x_y_increase[1]
+    let xcoordIncrease = x_y_increase[0];
+    let ycoordIncrease = x_y_increase[1];
 
     gameField.forEach((row, i) => {
       row.forEach((elem, j) => {
-
         newGameField[i + xcoordIncrease][j + ycoordIncrease] = decideFate(
           gameField[i][j],
           neighbourCount(i, j, gameField)
@@ -120,7 +117,11 @@
     });
     gameField = newGameField;
   };
-  // neighbour count ========================================================
+
+  const resetField = () => {
+    gameField = createGameFieldOfSize(5, 5);
+  };
+
   const neighbourCoords = [
     [-1, -1],
     [-1, 0],
@@ -146,7 +147,6 @@
     }).length;
   };
 
-  // change cell val according to neighbourcount ==========================
   const decideFate = (value, neighbourCount) => {
     // console.log(value);
     if (value === 1 && !(neighbourCount === 2 || neighbourCount === 3)) {
@@ -180,7 +180,7 @@
     <div class="buttons">
       <button on:click={next}>Start</button>
       <button>Pause</button>
-      <button>Reset</button>
+      <button on:click={resetField}>Reset</button>
     </div>
   </div>
 </div>
