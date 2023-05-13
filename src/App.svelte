@@ -3,14 +3,13 @@
     import Frame from "./Frame.svelte";
     import GameControls from "./GameControls.svelte";
     import Header from "./Header.svelte";
-
 </script>
 
 <main>
 	<Header height={"15%"}/>
 
-	<GameField height={"65%"}/>
-	<GameControls height={"15%"}/>
+	<GameField/>
+	<!-- <GameControls height={"15%"}/> -->
 </main>
 
 <style>
