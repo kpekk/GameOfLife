@@ -1,8 +1,7 @@
 <script>
-    export let height;
 </script>
 
-<div class="header" style="height:{height}">
+<div class="header">
     <h1>Game of life</h1>
 </div>
 
@@ -11,6 +10,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        height: 15%;
     }
 
     h1 {
