@@ -4,6 +4,7 @@
 	--secondary: #964ec2;
 	--darkish: #50409a;
 	--darker: #313866;
+	--dark-purple: #36063a;
   }
 
 html,
@@ -62,14 +63,15 @@ input:disabled {
 }
 
 button {
-	height: 4rem;
-	width: 6rem;
+	height: 5rem;
+	width: 10rem;
 	border-radius: 0.5rem;
 	color: #333;
-	font-size: 1.5rem;
+	font-size: 2rem;
 	border: none;
 	background-color: var(--primary);
 	outline: none;
+	margin: 0 1rem 1rem 1rem
 }
 
 button:hover {
