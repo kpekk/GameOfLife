@@ -1,14 +1,13 @@
 <script>
-  import GameBoard from "./GameBoard.svelte";
+  import Game from "./Game.svelte";
+  import GameBoard from "./Board.svelte";
   import GameControls from "./GameControls.svelte";
   import Header from "./Header.svelte";
 </script>
 
 <main>
   <Header />
-
-  <GameBoard />
-  <!-- <GameControls height={"15%"}/> -->
+  <Game />
 </main>
 
 <style>
