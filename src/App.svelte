@@ -5,7 +5,7 @@
 </script>
 
 <main>
-	<Header height={"15%"}/>
+	<Header/>
 
 	<GameField/>
 	<!-- <GameControls height={"15%"}/> -->
