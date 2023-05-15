@@ -1,4 +1,27 @@
 <script>
+  import GameControls from "./GameControls.svelte";
+
+  // todo use interval to call next() while gameInprogress?
+  let interval;
+  let gameSpeed;
+
+  const startGame = () => {
+    clearInterval(interval);
+    next();
+    //interval = setInterval(next, 1000 / gameSpeed);
+  };
+
+  const stopGame = () => {
+    clearInterval(interval);
+  };
+
+  const resetField = () => {
+    stopGame();
+    clearInterval(interval);
+
+    gameField = createGameFieldOfSize(5, 5);
+  };
+
   const createGameFieldOfSize = (rows, cols) => {
     let newGameField = new Array(rows);
 
@@ -78,7 +101,6 @@
   };
 
   const cellClicked = (event) => {
-    console.log("clicked cell: ", event.target.id);
     let i = event.target.id.split("_")[0];
     let j = event.target.id.split("_")[1];
 
@@ -96,6 +118,7 @@
 
   // next state ============================================================
   const next = () => {
+    cleanupField();
     let newGameField = createGameFieldOfSize(
       gameField.length,
       gameField[0].length
@@ -118,8 +141,54 @@
     gameField = newGameField;
   };
 
-  const resetField = () => {
-    gameField = createGameFieldOfSize(5, 5);
+  const firstAndLastElemCoords = (field) => {
+    let firstXIndex = gameField.length;
+    let lastXIndex = 0;
+    let firstYIndex = gameField[0].length;
+    let lastYIndex = 0;
+
+    let boardIsEmpty = true;
+
+    field.forEach((row, x) => {
+      row.forEach((col, y) => {
+        if (field[x][y]) {
+          x < firstXIndex ? (firstXIndex = x) : firstXIndex;
+          x > lastXIndex ? (lastXIndex = x) : lastXIndex;
+
+          y < firstYIndex ? (firstYIndex = y) : firstYIndex;
+          y > lastYIndex ? (lastYIndex = y) : lastYIndex;
+
+          boardIsEmpty = false;
+        }
+      });
+    });
+
+    return boardIsEmpty
+      ? [
+          [0, 5],
+          [0, 5],
+        ]
+      : [
+          [firstXIndex, lastXIndex],
+          [firstYIndex, lastYIndex],
+        ];
+  };
+
+  const cleanupField = () => {
+    let coords = firstAndLastElemCoords(gameField);
+
+    let firstXIndex = coords[0][0];
+    let lastXIndex = coords[0][1];
+    let firstYIndex = coords[1][0];
+    let lastYIndex = coords[1][1];
+
+    // top and bottom row
+    gameField = gameField.slice(firstXIndex < 2 ? 0 : firstXIndex - 2, lastXIndex + 3);
+
+    // left-right
+    for (let i = 0; i < gameField.length; i++) {
+      gameField[i] = gameField[i].slice(firstYIndex< 2 ? 0 : firstYIndex - 2, lastYIndex + 3);
+    }
   };
 
   const neighbourCoords = [
@@ -148,20 +217,17 @@
   };
 
   const decideFate = (value, neighbourCount) => {
-    // console.log(value);
     if (value === 1 && !(neighbourCount === 2 || neighbourCount === 3)) {
-      // over- or underpopulation
       return 0;
     } else if (value === 0 && neighbourCount === 3) {
-      //resurrection
       return 1;
     }
-    return value; //nothing happens
+    return value;
   };
 </script>
 
-<div style="height: 85%;">
-  <div class="game-container" style="height:65%">
+<div class="game-container">
+  <div class="field-container">
     <table cellspacing="0">
       {#each gameField as row, i}
         <tr>
@@ -176,20 +242,24 @@
       {/each}
     </table>
   </div>
-  <div class="controls-container" style="height:25%">
-    <div class="buttons">
-      <button on:click={next}>Start</button>
-      <button>Pause</button>
-      <button on:click={resetField}>Reset</button>
-    </div>
-  </div>
+  <GameControls
+    on:resetField={resetField}
+    on:pauseGame={stopGame}
+    on:startGame={startGame}
+    bind:gameSpeed
+  />
 </div>
 
 <style>
   .game-container {
+    height: 85%;
+  }
+
+  .field-container {
     width: 80%;
-    border: 1px solid red;
+    border: 0.1rem solid var(--secondary);
     margin: 0 auto;
+    height: 65%;
   }
 
   table {
