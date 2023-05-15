@@ -1,6 +1,5 @@
 <script>
     import GameField from "./GameField.svelte";
-    import Frame from "./Frame.svelte";
     import GameControls from "./GameControls.svelte";
     import Header from "./Header.svelte";
 </script>
