@@ -1,4 +1,4 @@
-export default class GameBoard {
+export default class Board {
     //todo error if elem on border
   constructor(rows, cols) {
     this.board = this.createBoardOfSize(rows, cols);

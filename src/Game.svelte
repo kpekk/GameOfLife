@@ -9,8 +9,9 @@
 
   const startGame = () => {
     clearInterval(interval);
+
     interval = setInterval(() => {
-        board.startGame();
+      board.nextState();
     }, 1000 / gameSpeed);
   };
 

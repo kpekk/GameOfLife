@@ -1,7 +1,5 @@
 <script>
   import Game from "./Game.svelte";
-  import GameBoard from "./Board.svelte";
-  import GameControls from "./GameControls.svelte";
   import Header from "./Header.svelte";
 </script>
 

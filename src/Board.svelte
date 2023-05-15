@@ -1,9 +1,9 @@
 <script>
-  import GameBoard from "./GameBoard.js";
+  import Board from "./Board.js";
 
-  let board = new GameBoard(5, 5);
+  let board = new Board(5, 5);
 
-  export const startGame = () => {
+  export const nextState = () => {
     board.nextState();
     board = board;
   };
