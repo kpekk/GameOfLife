@@ -1,14 +1,12 @@
 <script>
   import GameControls from "./GameControls.svelte";
 
-  // todo use interval to call next() while gameInprogress?
   let interval;
   let gameSpeed;
 
   const startGame = () => {
     clearInterval(interval);
-    next();
-    //interval = setInterval(next, 1000 / gameSpeed);
+    interval = setInterval(nextState, 1000 / gameSpeed);
   };
 
   const stopGame = () => {
@@ -18,7 +16,6 @@
   const resetField = () => {
     stopGame();
     clearInterval(interval);
-
     gameField = createGameFieldOfSize(5, 5);
   };
 
@@ -117,7 +114,7 @@
   let gameField = createGameFieldOfSize(5, 5);
 
   // next state ============================================================
-  const next = () => {
+  const nextState = () => {
     cleanupField();
     let newGameField = createGameFieldOfSize(
       gameField.length,
